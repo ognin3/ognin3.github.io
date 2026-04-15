@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nine</title>
+  <link rel="canonical" href="https://nine.works">
+  <meta property="og:title" content="nine">
+  <meta property="og:description" content="nine">
+  <meta property="og:url" content="https://nine.works">
+  <meta property="og:image" content="assets/cover.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="nine">
+  <meta name="twitter:description" content="nine">
+  <meta name="twitter:image" content="assets/cover.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+
+@property --bg   { syntax: '<color>'; inherits: true; initial-value: #080808; }
+@property --text { syntax: '<color>'; inherits: true; initial-value: #b4b4b4; }
+@property --mid  { syntax: '<color>'; inherits: true; initial-value: #404040; }
+@property --line { syntax: '<color>'; inherits: true; initial-value: #181818; }
+
+:root {
+  --bg: #080808;
+  --text: #b4b4b4;
+  --mid: #404040;
+  --line: #181818;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Fragment Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  transition: --bg 400ms ease, --text 400ms ease, --mid 400ms ease, --line 400ms ease;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  min-height: 100vh;
+}
+
+.col {
+  padding: 24px;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  min-width: 0;
+}
+.col::-webkit-scrollbar { display: none; }
+.col::after { content: ''; display: block; height: 24px; }
+#col-thoughts::after, #col-images::after { height: 0; }
+.col + .col { border-left: 1px solid var(--line); }
+.col-1 { overflow: hidden; }
+
+.col-loader { color: var(--mid); padding-top: 2px; }
+.col-loader-cursor { animation: blink 1.2s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (max-width: 768px) {
+  .page { grid-template-columns: 1fr; }
+  .col  { height: auto; overflow-y: visible; }
+  .col::after { height: 0; }
+  .col + .col { border-left: none; border-top: 1px solid var(--line); }
+  .col-1 { overflow: visible; }
+  .gallery-footer { align-items: flex-start; }
+  .gallery-footer .gallery-nav { padding-top: 4px; }
+}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="col col-1">
+    </div>
+
+    <div class="col" id="col-thoughts">
+      <div class="col-loader">carregando<span class="col-loader-cursor">_</span></div>
+    </div>
+
+    <div class="col" id="col-images">
+      <div class="col-loader">carregando<span class="col-loader-cursor">_</span></div>
+    </div>
+  </div>
+</body>
+</html>
