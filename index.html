@@ -891,22 +891,6 @@ document.querySelectorAll('.logo-letter[data-mode]').forEach(el => {
   }, { passive: false });
 });
 
-const INLINE_DATA = {
-  "thoughts": [
-    { "ts": 1713200000000, "text": "ei! se voce esta no desktop, aperte [D] pro modo dia, [S] pro modo sol, [N] pro modo noite, [M] pro modo luar, [R] pro modo chuva ou [C] pra derrubar o site — e [C] de novo pra restaurar.\n\nse voce esta no celular, so tocar cada letra do logo. o I e o N voce pode tocar de novo pra trocar pra mais modos.\n\n❤️", "type": "text" },
-    { "ts": 1713100000000, "text": "eu com 10 anos acharia que eu sou legal. e so isso que me importa.", "type": "text" },
-    { "ts": 1713000000000, "text": "voce nao esta em burnout.\nvoce esta viciado.\n\nnao em trabalho.\nem estimulo.\n\nvoce nao esta cansado.\nnao falta foco.\nvoce simplesmente pratica distracao.\ncada minuto acordado.\n\nscroll. checa. toca. desliza.\nde novo. de novo. de novo.\n\nentao quando nao tem nada seu cerebro acha que algo esta errado.\n\nfica em silencio por 15 minutos.\n\nsem celular.\nsem musica.\nsem estimulo.\n\nse te deixa ansioso, desconfortavel, irritado —\n\nbom.\n\nisso nao e fracasso.\n\ne abstinencia.", "type": "text" },
-    { "ts": 1712950000000, "text": "meu sistema de gestao de conteudo no telegram esta no ar.", "type": "text" }
-  ],
-  "images": [
-    { "ts": 1713300000000, "url": "https://ninetv.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://ninetv.vercel.app/\" target=\"_blank\">nineTV</a> — meu negocio de revenda de TV por assinatura. Criei do zero pra substituir o site generico que tinha por algo que realmente vende." },
-    { "ts": 1713200000000, "url": "https://dentsam.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://dentsam.vercel.app/\" target=\"_blank\">Dent Sam</a> — clinica da minha cidade que tinha um site tao ruim que пациентов achavam que era fake. Agora e referencia online." },
-    { "ts": 1713100000000, "url": "https://claudiocorretor.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://claudiocorretor.vercel.app/\" target=\"_blank\">Claudio Corretor</a> — amigo corretor que comecou ha pouco tempo e precisava alcancar mais gente. Site novo, clientes novos." },
-    { "ts": 1712900000000, "url": "https://picsum.photos/800/600?random=1", "type": "image", "captionHtml": "visualizando o futuro digital" },
-    { "ts": 1712800000000, "images": [{"url":"https://picsum.photos/800/600?random=2"},{"url":"https://picsum.photos/800/600?random=3"},{"url":"https://picsum.photos/800/600?random=4"}], "type": "gallery", "captionHtml": "projetos em andamento" }
-  ]
-};
-
 function loadData(data) {
   const col2Media = data.images?.filter(i => ['video', 'video_note'].includes(i.type)) || [];
   const col3Media = data.images?.filter(i => !i.type || ['image', 'gallery', 'gif', 'iframe'].includes(i.type)) || [];
@@ -922,10 +906,26 @@ function loadData(data) {
   setupReveal(document.getElementById('col-images'));
 }
 
-fetch('content.json')
-  .then(r => r.json())
-  .then(loadData)
-  .catch(() => loadData(INLINE_DATA));
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'content.json', true);
+xhr.onload = function() {
+  if (xhr.status === 200 || xhr.status === 0) {
+    try { loadData(JSON.parse(xhr.responseText)); return; } catch(e) {}
+  }
+  ['col-thoughts', 'col-images'].forEach(function(id) {
+    var col = document.getElementById(id);
+    col.querySelector('.col-loader')?.remove();
+    col.innerHTML = '<div class="entry visible">erro ao carregar conteudo</div>';
+  });
+};
+xhr.onerror = function() {
+  ['col-thoughts', 'col-images'].forEach(function(id) {
+    var col = document.getElementById(id);
+    col.querySelector('.col-loader')?.remove();
+    col.innerHTML = '<div class="entry visible">erro ao carregar conteudo</div>';
+  });
+};
+xhr.send();
 </script>
 <script type="importmap">
 {
