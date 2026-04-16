@@ -1,25 +1,48 @@
 {
   "thoughts": [
     {
+      "ts": 1713100000000,
+      "text": "cada projeto e uma historia — este portfolio conta a minha",
+      "type": "text"
+    },
+    {
       "ts": 1713000000000,
-      "text": "construindo o portfolio nine — um site que reflete minha abordagem ao desenvolvimento",
+      "text": "construindo experiencias digitais que conectam pessoas a servicos que importam",
       "type": "text"
     },
     {
       "ts": 1712900000000,
-      "text": "cada projeto e uma historia — este portfolio conta a minha",
+      "text": "de entretenimento a saude — tecnologia a servico das pessoas",
       "type": "text"
     }
   ],
   "images": [
     {
+      "ts": 1713300000000,
+      "url": "https://ninetv.vercel.app/",
+      "type": "iframe",
+      "captionHtml": "<a href=\"https://ninetv.vercel.app/\" target=\"_blank\">nineTV</a> — IPTV premium 4K"
+    },
+    {
+      "ts": 1713200000000,
+      "url": "https://dentsam.vercel.app/",
+      "type": "iframe",
+      "captionHtml": "<a href=\"https://dentsam.vercel.app/\" target=\"_blank\">Dent Sam</a> — clinica odontologica"
+    },
+    {
       "ts": 1713100000000,
+      "url": "https://claudiocorretor.vercel.app/",
+      "type": "iframe",
+      "captionHtml": "<a href=\"https://claudiocorretor.vercel.app/\" target=\"_blank\">Claudio Corretor</a> — imoveis MCMV Rio"
+    },
+    {
+      "ts": 1712900000000,
       "url": "https://picsum.photos/800/600?random=1",
       "type": "image",
       "captionHtml": "visualizando o futuro digital"
     },
     {
-      "ts": 1713000000000,
+      "ts": 1712800000000,
       "images": [
         {"url": "https://picsum.photos/800/600?random=2"},
         {"url": "https://picsum.photos/800/600?random=3"},
@@ -27,23 +50,6 @@
       ],
       "type": "gallery",
       "captionHtml": "projetos em andamento"
-    },
-    {
-      "ts": 1712900000000,
-      "url": "https://picsum.photos/400/400?random=5",
-      "type": "gif"
-    },
-    {
-      "ts": 1712850000000,
-      "url": "https://www.w3schools.com/html/mov_bbb.mp4",
-      "type": "video",
-      "captionHtml": "demo do projeto"
-    },
-    {
-      "ts": 1712800000000,
-      "url": "https://example.com",
-      "type": "iframe",
-      "captionHtml": "site ao vivo"
     }
   ]
 }
