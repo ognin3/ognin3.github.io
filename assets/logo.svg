@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 36" fill="black">
+  <g class="logo-letter" data-mode="day" transform="translate(0,0.5)">
+    <path d="M0 0H7V35H0Z M0 0H10L24 35H14Z M17 0H24V35H17Z"/>
+  </g>
+  <g class="logo-letter" data-mode="summer" transform="translate(27,0.5)">
+    <path d="M0 0H13V7H9V28H13V35H0V28H4V7H0Z"/>
+  </g>
+  <g class="logo-letter" data-mode="night" transform="translate(43,0.5)">
+    <path d="M0 0H7V35H0Z M0 0H10L24 35H14Z M17 0H24V35H17Z"/>
+  </g>
+  <g class="logo-letter" data-mode="chaos" transform="translate(70,0.5)">
+    <path d="M0 0H24V8H8V14H20V21H8V27H24V35H0Z"/>
+  </g>
+</svg>
