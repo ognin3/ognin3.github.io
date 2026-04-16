@@ -81,6 +81,7 @@ body {
   display: block; height: 28px; width: auto;
   filter: invert(1); margin-bottom: 32px;
 }
+.logo path { fill: currentColor; }
 p { margin-bottom: 32px; }
 .section { margin-bottom: 28px; }
 .section-title {
@@ -196,7 +197,20 @@ body.light a:hover { color: #000; text-decoration-color: #606060; }
 <body>
   <div class="page">
     <div class="col col-1">
-      <img src="assets/logo.svg" class="logo" alt="nine">
+      <svg class="logo" viewBox="0 0 96 36" fill="black" alt="nine">
+        <g class="logo-letter" data-mode="day" transform="translate(0,0.5)">
+          <path d="M0 0H7V35H0Z M0 0H10L24 35H14Z M17 0H24V35H17Z"/>
+        </g>
+        <g class="logo-letter" data-mode="summer" transform="translate(27,0.5)">
+          <path d="M0 0H13V7H9V28H13V35H0V28H4V7H0Z"/>
+        </g>
+        <g class="logo-letter" data-mode="night" transform="translate(43,0.5)">
+          <path d="M0 0H7V35H0Z M0 0H10L24 35H14Z M17 0H24V35H17Z"/>
+        </g>
+        <g class="logo-letter" data-mode="chaos" transform="translate(70,0.5)">
+          <path d="M0 0H24V8H8V14H20V21H8V27H24V35H0Z"/>
+        </g>
+      </svg>
 
       <p>transformando ideias em experiencias digitais — construindo <a href="#">sites</a> que importam.</p>
 
