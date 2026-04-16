@@ -78,10 +78,15 @@ body {
 }
 
 .logo {
-  display: block; height: 28px; width: auto;
+  display: block; height: 44px; width: auto;
   filter: invert(1); margin-bottom: 32px;
 }
 .logo path { fill: currentColor; }
+@media (max-width: 768px) {
+  .logo { height: 52px; }
+  .logo-letter[data-mode] { cursor: pointer; touch-action: manipulation; }
+  .logo-letter[data-mode]:active path { opacity: 0.5; }
+}
 p { margin-bottom: 32px; }
 .section { margin-bottom: 28px; }
 .section-title {
@@ -132,11 +137,6 @@ body.light { --bg: #f2efe9; --text: #1a1a1a; --mid: #888; --line: #d8d5cf; }
 body.light .logo { filter: none; }
 body.light a { text-decoration-color: #b0b0b0; }
 body.light a:hover { color: #000; text-decoration-color: #606060; }
-
-@media (max-width: 768px) {
-  .logo-letter[data-mode] { cursor: pointer; touch-action: manipulation; }
-  .logo-letter[data-mode]:active path { opacity: 0.5; }
-}
 .entry { margin-bottom: 32px; opacity: 0; transform: translateY(10px); transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out); }
 .entry.visible { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) { .entry { transform: none; transition-duration: 0ms; } }
