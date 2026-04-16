@@ -1,55 +1,14 @@
 {
   "thoughts": [
-    {
-      "ts": 1713100000000,
-      "text": "cada projeto e uma historia — este portfolio conta a minha",
-      "type": "text"
-    },
-    {
-      "ts": 1713000000000,
-      "text": "construindo experiencias digitais que conectam pessoas a servicos que importam",
-      "type": "text"
-    },
-    {
-      "ts": 1712900000000,
-      "text": "de entretenimento a saude — tecnologia a servico das pessoas",
-      "type": "text"
-    }
+    { "ts": 1713100000000, "text": "cada projeto e uma historia — este portfolio conta a minha", "type": "text" },
+    { "ts": 1713000000000, "text": "construindo experiencias digitais que conectam pessoas a servicos que importam", "type": "text" },
+    { "ts": 1712950000000, "text": "meu negocio de IPTV, a clinica do bairro, o amigo corretor — tecnologia que resolve problemas reais", "type": "text" }
   ],
   "images": [
-    {
-      "ts": 1713300000000,
-      "url": "https://ninetv.vercel.app/",
-      "type": "iframe",
-      "captionHtml": "<a href=\"https://ninetv.vercel.app/\" target=\"_blank\">nineTV</a> — IPTV premium 4K"
-    },
-    {
-      "ts": 1713200000000,
-      "url": "https://dentsam.vercel.app/",
-      "type": "iframe",
-      "captionHtml": "<a href=\"https://dentsam.vercel.app/\" target=\"_blank\">Dent Sam</a> — clinica odontologica"
-    },
-    {
-      "ts": 1713100000000,
-      "url": "https://claudiocorretor.vercel.app/",
-      "type": "iframe",
-      "captionHtml": "<a href=\"https://claudiocorretor.vercel.app/\" target=\"_blank\">Claudio Corretor</a> — imoveis MCMV Rio"
-    },
-    {
-      "ts": 1712900000000,
-      "url": "https://picsum.photos/800/600?random=1",
-      "type": "image",
-      "captionHtml": "visualizando o futuro digital"
-    },
-    {
-      "ts": 1712800000000,
-      "images": [
-        {"url": "https://picsum.photos/800/600?random=2"},
-        {"url": "https://picsum.photos/800/600?random=3"},
-        {"url": "https://picsum.photos/800/600?random=4"}
-      ],
-      "type": "gallery",
-      "captionHtml": "projetos em andamento"
-    }
+    { "ts": 1713300000000, "url": "https://ninetv.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://ninetv.vercel.app/\" target=\"_blank\">nineTV</a> — meu negocio de revenda de TV por assinatura. Criei do zero pra substituir o site generico que tinha por algo que realmente vende." },
+    { "ts": 1713200000000, "url": "https://dentsam.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://dentsam.vercel.app/\" target=\"_blank\">Dent Sam</a> — clinica da minha cidade que tinha um site tao ruim que pacientes achavam que era fake. Agora e referencia online." },
+    { "ts": 1713100000000, "url": "https://claudiocorretor.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://claudiocorretor.vercel.app/\" target=\"_blank\">Claudio Corretor</a> — amigo corretor que comecou ha pouco tempo e precisava alcancar mais gente. Site novo, clientes novos." },
+    { "ts": 1712900000000, "url": "https://picsum.photos/800/600?random=1", "type": "image", "captionHtml": "visualizando o futuro digital" },
+    { "ts": 1712800000000, "images": [{"url":"https://picsum.photos/800/600?random=2"},{"url":"https://picsum.photos/800/600?random=3"},{"url":"https://picsum.photos/800/600?random=4"}], "type": "gallery", "captionHtml": "projetos em andamento" }
   ]
 }
