@@ -390,40 +390,32 @@ function _doActivateChaos() {
       Object.assign(ov.style, {
         fontFamily: cs.fontFamily, fontSize: cs.fontSize, fontWeight: cs.fontWeight,
         color: cs.color, letterSpacing: cs.letterSpacing, lineHeight: cs.lineHeight,
+        whiteSpace: 'nowrap', display: 'flex', alignItems: 'center',
       });
       ov.textContent = el.textContent;
     } else if (type === 'separator') {
       ov.style.background = 'var(--line)';
-    } else if (el.tagName === 'IMG' || el.querySelector('img')) {
-      const imgEl = el.tagName === 'IMG' ? el : el.querySelector('img');
-      if (imgEl) { ov.style.backgroundImage = `url(${imgEl.src})`; ov.style.backgroundSize = 'cover'; ov.style.borderRadius = getComputedStyle(el).borderRadius; }
-    } else if (el.tagName === 'SVG' || el.classList.contains('logo')) {
-      const clone = el.cloneNode(true);
-      clone.style.cssText = `width:${w}px;height:${h}px;display:block;`;
-      ov.appendChild(clone);
     } else {
       const clone = el.cloneNode(true);
-      clone.style.cssText = `width:100%;height:100%;display:flex;align-items:center;justify-content:center;`;
+      const pos = getComputedStyle(el).position;
+      if (pos === 'fixed' || pos === 'sticky') clone.style.position = 'static';
+      clone.style.width = w + 'px';
+      clone.style.height = h + 'px';
+      clone.style.overflow = 'hidden';
       ov.appendChild(clone);
     }
 
     overlayRoot.appendChild(ov);
-    items.push({ body, ov, el, type, origCx: cx, origCy: cy, origAngle: 0 });
+    const origVis = el.style.visibility;
+    el.style.visibility = 'hidden';
+    items.push({ body, ov, el, type, isTempEl: !!isTempEl, origVis, origCx: cx, origCy: cy, w, h });
   });
 
-  const logoEl = document.querySelector('.logo');
-  if (logoEl) {
-    const logoClone = logoEl.cloneNode(true);
-    logoClone.style.cssText = 'height:28px;width:auto;filter:invert(1);cursor:pointer;pointer-events:auto;position:fixed;bottom:24px;left:24px;z-index:9002;';
-    const eLetter = logoClone.querySelectorAll('.logo-letter');
-    eLetter.forEach(g => {
-      if (g.dataset.mode === 'chaos') {
-        g.style.cursor = 'pointer';
-        g.addEventListener('click', () => activateChaos());
-        g.addEventListener('touchend', e => { e.preventDefault(); activateChaos(); }, { passive: false });
-      }
-    });
-    overlayRoot.appendChild(logoClone);
+  const logoItem = items.find(i => i.el.classList?.contains('logo'));
+  if (logoItem) {
+    logoItem.ov.style.cursor = 'pointer';
+    logoItem.ov.addEventListener('click', () => activateChaos());
+    logoItem.ov.addEventListener('touchend', e => { e.preventDefault(); activateChaos(); }, { passive: false });
   }
 
   function onPointerMove(px, py) {
@@ -440,7 +432,9 @@ function _doActivateChaos() {
   overlayRoot.addEventListener('mousedown', e => {
     const item = items.find(i => i.ov === e.target || i.ov.contains(e.target));
     if (!item) return;
+    e.preventDefault();
     dragBody = item.body;
+    Matter.Sleeping.set(dragBody, false);
     const r = item.ov.getBoundingClientRect();
     dragOx = e.clientX - r.left;
     dragOy = e.clientY - r.top;
@@ -464,6 +458,7 @@ function _doActivateChaos() {
     const item = items.find(i => i.ov === document.elementFromPoint(t.clientX, t.clientY) || i.ov.contains(document.elementFromPoint(t.clientX, t.clientY)));
     if (!item) return;
     dragBody = item.body;
+    Matter.Sleeping.set(dragBody, false);
     const r = item.ov.getBoundingClientRect();
     dragOx = t.clientX - r.left;
     dragOy = t.clientY - r.top;
@@ -483,14 +478,13 @@ function _doActivateChaos() {
     }
   });
 
+  document.body.style.overflow = 'hidden';
+
   _chaosState = { items, toRestore, savedBorders, overlayRoot, engine };
   _chaosEngine = engine;
 
-  let lastTick = performance.now();
-  function tick(now) {
-    const dt = now - lastTick;
-    lastTick = now;
-    Engine.update(engine, dt);
+  function tick() {
+    Engine.update(engine, 1000 / 60);
     items.forEach(({ body, ov }) => {
       ov.style.transform = `translate(${body.position.x - parseFloat(ov.style.width)/2}px,${body.position.y - parseFloat(ov.style.height)/2}px) rotate(${body.angle}rad)`;
     });
@@ -505,30 +499,30 @@ function _doActivateChaos() {
 function _reverseChaos() {
   if (!chaosActive || !_chaosState) return;
   chaosActive = false;
+  chaosLock = true;
   cancelAnimationFrame(_chaosRaf);
 
   const { items, toRestore, savedBorders, overlayRoot, engine } = _chaosState;
   const duration = 750;
   const start = performance.now();
 
-  items.forEach(({ body }) => {
-    body._origX = body.position.x;
-    body._origY = body.position.y;
-    body._origA = body.angle;
-  });
+  const snapshots = items.map(({ body, ov, origCx, origCy, w, h }) => ({
+    ov, origCx, origCy, w, h,
+    startX: body.position.x, startY: body.position.y, startA: body.angle
+  }));
 
   function easeInOut(t) {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
   }
 
   function anim(now) {
     const t = Math.min(1, (now - start) / duration);
     const e = easeInOut(t);
-    items.forEach(({ body, ov, origCx, origCy }) => {
-      const x = body._origX + (origCx - body._origX) * e;
-      const y = body._origY + (origCy - body._origY) * e;
-      const a = body._origA * (1 - e);
-      ov.style.transform = `translate(${x - parseFloat(ov.style.width)/2}px,${y - parseFloat(ov.style.height)/2}px) rotate(${a}rad)`;
+    snapshots.forEach(({ ov, origCx, origCy, w, h, startX, startY, startA }) => {
+      const x = startX + (origCx - startX) * e;
+      const y = startY + (origCy - startY) * e;
+      const a = startA * (1 - e);
+      ov.style.transform = `translate(${x - w / 2}px,${y - h / 2}px) rotate(${a}rad)`;
     });
     if (t < 1) {
       requestAnimationFrame(anim);
@@ -537,17 +531,19 @@ function _reverseChaos() {
         if (html !== null) el.innerHTML = html;
         el.style.visibility = vis;
       });
+      items.forEach(({ el, origVis, isTempEl }) => {
+        el.style.visibility = origVis;
+        if (isTempEl) el.remove();
+      });
       savedBorders.forEach(({ el, prop, val }) => {
-        if (prop === 'borderLeft') el.style.borderLeft = val;
-        if (prop === 'borderTop') el.style.borderTop = val;
+        el.style[prop] = val;
       });
-      items.forEach(({ el, type }) => {
-        if (type === 'word') { el.style.display = ''; el.classList.remove('_cw'); }
-      });
+      document.body.style.overflow = '';
       overlayRoot.remove();
       Matter.Engine.clear(engine);
       _chaosState = null;
       _chaosEngine = null;
+      chaosLock = false;
     }
   }
   requestAnimationFrame(anim);
