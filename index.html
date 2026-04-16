@@ -873,29 +873,40 @@ document.querySelectorAll('.logo-letter[data-mode]').forEach(el => {
   }, { passive: false });
 });
 
+const INLINE_DATA = {
+  "thoughts": [
+    { "ts": 1713100000000, "text": "cada projeto e uma historia — este portfolio conta a minha", "type": "text" },
+    { "ts": 1713000000000, "text": "construindo experiencias digitais que conectam pessoas a servicos que importam", "type": "text" },
+    { "ts": 1712900000000, "text": "de entretenimento a saude — tecnologia a servico das pessoas", "type": "text" }
+  ],
+  "images": [
+    { "ts": 1713300000000, "url": "https://ninetv.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://ninetv.vercel.app/\" target=\"_blank\">nineTV</a> — IPTV premium 4K" },
+    { "ts": 1713200000000, "url": "https://dentsam.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://dentsam.vercel.app/\" target=\"_blank\">Dent Sam</a> — clinica odontologica" },
+    { "ts": 1713100000000, "url": "https://claudiocorretor.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://claudiocorretor.vercel.app/\" target=\"_blank\">Claudio Corretor</a> — imoveis MCMV Rio" },
+    { "ts": 1712900000000, "url": "https://picsum.photos/800/600?random=1", "type": "image", "captionHtml": "visualizando o futuro digital" },
+    { "ts": 1712800000000, "images": [{"url":"https://picsum.photos/800/600?random=2"},{"url":"https://picsum.photos/800/600?random=3"},{"url":"https://picsum.photos/800/600?random=4"}], "type": "gallery", "captionHtml": "projetos em andamento" }
+  ]
+};
+
+function loadData(data) {
+  const col2Media = data.images?.filter(i => ['video', 'video_note'].includes(i.type)) || [];
+  const col3Media = data.images?.filter(i => !i.type || ['image', 'gallery', 'gif', 'iframe'].includes(i.type)) || [];
+  const col2Items = [...(data.thoughts || []), ...col2Media].sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    if (a.featured && b.featured) return (b.featured_ts || 0) - (a.featured_ts || 0);
+    return b.ts - a.ts;
+  });
+  renderCol2(col2Items);
+  renderImages(col3Media);
+  setupReveal(document.getElementById('col-thoughts'));
+  setupReveal(document.getElementById('col-images'));
+}
+
 fetch('content.json')
   .then(r => r.json())
-  .then(data => {
-    const col2Media = data.images?.filter(i => ['video', 'video_note'].includes(i.type)) || [];
-    const col3Media = data.images?.filter(i => !i.type || ['image', 'gallery', 'gif', 'iframe'].includes(i.type)) || [];
-    const col2Items = [...(data.thoughts || []), ...col2Media].sort((a, b) => {
-      if (a.featured && !b.featured) return -1;
-      if (!a.featured && b.featured) return 1;
-      if (a.featured && b.featured) return (b.featured_ts || 0) - (a.featured_ts || 0);
-      return b.ts - a.ts;
-    });
-    renderCol2(col2Items);
-    renderImages(col3Media);
-    setupReveal(document.getElementById('col-thoughts'));
-    setupReveal(document.getElementById('col-images'));
-  })
-  .catch(() => {
-    ['col-thoughts', 'col-images'].forEach(id => {
-      const col = document.getElementById(id);
-      col.querySelector('.col-loader')?.remove();
-      col.innerHTML = '<div class="entry visible">erro ao carregar conteudo</div>';
-    });
-  });
+  .then(loadData)
+  .catch(() => loadData(INLINE_DATA));
 </script>
 <script type="importmap">
 {
