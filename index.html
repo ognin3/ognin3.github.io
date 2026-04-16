@@ -235,6 +235,23 @@ body.light a:hover { color: #000; text-decoration-color: #606060; }
 <video id="rain-overlay" src="assets/rain.mp4" loop muted playsinline preload="none"></video>
 <audio id="rain-audio" src="assets/rain.mp3" loop preload="none"></audio>
 
+<script type="application/json" id="content-data">
+{
+  "thoughts": [
+    { "ts": 1713200000000, "text": "Ei! Se você está no desktop, aperte [D] para o modo dia, [S] para o modo sol, [N] para o modo noite, [M] para o modo luar, [R] para o modo chuva ou [C] para derrubar o site — e [C] de novo para restaurar.\n\nSe você está no celular, é só tocar em cada letra do logo. O I e o N você pode tocar de novo para trocar para mais modos.\n\n❤️", "type": "text" },
+    { "ts": 1713100000000, "text": "Eu com 10 anos acharia que eu sou legal. E é só isso que me importa.", "type": "text" },
+    { "ts": 1713000000000, "text": "Você não está em burnout.\nVocê está viciado.\n\nNão em trabalho.\nEm estímulo.\n\nVocê não está cansado.\nNão falta foco.\nVocê simplesmente pratica a distração.\nCada minuto acordado.\n\nScroll. Checa. Toca. Desliza.\nDe novo. De novo. De novo.\n\nEntão, quando não tem nada, seu cérebro acha que algo está errado.\n\nFique em silêncio por 15 minutos.\n\nSem celular.\nSem música.\nSem estímulo.\n\nSe te deixa ansioso, desconfortável, irritado —\n\nBom.\n\nIsso não é fracasso.\n\nÉ abstinência.", "type": "text" },
+    { "ts": 1712950000000, "text": "Meu sistema de gestão de conteúdo no Telegram está no ar.", "type": "text" }
+  ],
+  "images": [
+    { "ts": 1713300000000, "url": "https://ninetv.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://ninetv.vercel.app/\" target=\"_blank\">nineTV</a> — meu negocio de revenda de TV por assinatura. Criei do zero pra substituir o site generico que tinha por algo que realmente vende." },
+    { "ts": 1713200000000, "url": "https://dentsam.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://dentsam.vercel.app/\" target=\"_blank\">Dent Sam</a> — clinica da minha cidade que tinha um site tao ruim que pacientes achavam que era fake. Agora e referencia online." },
+    { "ts": 1713100000000, "url": "https://claudiocorretor.vercel.app/", "type": "iframe", "captionHtml": "<a href=\"https://claudiocorretor.vercel.app/\" target=\"_blank\">Claudio Corretor</a> — amigo corretor que comecou ha pouco tempo e precisava alcancar mais gente. Site novo, clientes novos." },
+    { "ts": 1712900000000, "url": "https://picsum.photos/800/600?random=1", "type": "image", "captionHtml": "visualizando o futuro digital" },
+    { "ts": 1712800000000, "images": [{"url":"https://picsum.photos/800/600?random=2"},{"url":"https://picsum.photos/800/600?random=3"},{"url":"https://picsum.photos/800/600?random=4"}], "type": "gallery", "captionHtml": "projetos em andamento" }
+  ]
+}
+</script>
 <script>
 let _summerCycle = 0;
 let _nightCycle  = 0;
@@ -906,26 +923,15 @@ function loadData(data) {
   setupReveal(document.getElementById('col-images'));
 }
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'content.json', true);
-xhr.onload = function() {
-  if (xhr.status === 200 || xhr.status === 0) {
-    try { loadData(JSON.parse(xhr.responseText)); return; } catch(e) {}
-  }
-  ['col-thoughts', 'col-images'].forEach(function(id) {
-    var col = document.getElementById(id);
+try {
+  loadData(JSON.parse(document.getElementById('content-data').textContent));
+} catch(e) {
+  ['col-thoughts', 'col-images'].forEach(id => {
+    const col = document.getElementById(id);
     col.querySelector('.col-loader')?.remove();
     col.innerHTML = '<div class="entry visible">erro ao carregar conteudo</div>';
   });
-};
-xhr.onerror = function() {
-  ['col-thoughts', 'col-images'].forEach(function(id) {
-    var col = document.getElementById(id);
-    col.querySelector('.col-loader')?.remove();
-    col.innerHTML = '<div class="entry visible">erro ao carregar conteudo</div>';
-  });
-};
-xhr.send();
+}
 </script>
 <script type="importmap">
 {
